@@ -1,4 +1,4 @@
-// Final testing station sensor code TEST FOR GITHUB FUNCTIONALITY
+// Final testing station sensor code TEST2
 
 // Include all libraries
 #include <Arduino.h>
