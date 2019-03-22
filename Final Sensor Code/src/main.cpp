@@ -24,7 +24,7 @@ int offset = 32000; // Offset for the sensor
 float scale = 140.0; // Scale factor for Air and N2 is 140.0, O2 is 142.8
 
 // Constants for Pressure Sensors
-int Vs = 5; // Supply voltage
+int Vs = 3; // Supply voltage
 char bufferSerial[200];
 int marker = 0;
 float P_1; // Pressure 1 Reading
@@ -98,12 +98,12 @@ void loop() {
   // Test of new Pressure Sensor transfer function
   P_1 = ads1015.readADC_SingleEnded(Pressure1);
   Vout_1 = (P_1 / 4095) * Vs;
-  P_1 = ((Vout_1 / Vs) - 0.5) / 0.018;
+  P_1 = (Vout_1 - 0.5) / 0.018;
+  P_1 = (P_1 * 10.1972) - 4.798;
 
 // volt = pressure/1024;
 // p1 = (volt-0.5)/0.018;
 // out = (p1*10.1972 ) -4.798;
-
 
   // P_1 = (P_1 * 3) / 1000; // Convert to voltage out
   // P_1 = ((P_1 / Vs) - 0.5) / 0.018; // Convert to Pressure (kPA)
