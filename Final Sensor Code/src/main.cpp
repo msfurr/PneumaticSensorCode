@@ -1,4 +1,4 @@
-// Final testing station sensor code Test(4)
+// Final testing station sensor code
 
 // Include all libraries
 #include <Arduino.h>
@@ -29,6 +29,8 @@ char bufferSerial[200];
 int marker = 0;
 float P_1; // Pressure 1 Reading
 float P_2; // Pressure 2 Reading
+float Vout_1; // Voltage out Reading from sensor
+float Vout_2; // Voltage out Reading from sensor
 
 // Constants for Thermistors
 float Vi = 5; // Supply Voltage
@@ -95,8 +97,12 @@ void loop() {
   // Gather Pressure Sensor readings
   // Test of new Pressure Sensor transfer function
   P_1 = ads1015.readADC_SingleEnded(Pressure1);
-  P_1 = P_1 / 4095;
-  P_1 = (P_1 * 10.1972) - 4.798;
+  Vout_1 = (P_1 / 4095) * Vs;
+  P_1 = ((Vout_1 / Vs) - 0.5) / 0.018;
+
+// volt = pressure/1024;
+// p1 = (volt-0.5)/0.018;
+// out = (p1*10.1972 ) -4.798;
 
 
   // P_1 = (P_1 * 3) / 1000; // Convert to voltage out
@@ -125,16 +131,19 @@ void loop() {
 
   // DATA OUTPUT
   // sprintf(bufferSerial, "D %f,%f,%f,%f,%f,%f,%i",millis()/1000.00,Flow,P1,P2,Temp1,Temp2,marker);
-  Serial.print("D "); // Print Data case value
-  Serial.print(millis()/1000.00); Serial.print(","); // Print Time
-  // Serial.print("F  "); Serial.println(Flow);
-  Serial.print(Flow); Serial.print(","); // Print Flow
-  // Serial.print("P  "); Serial.print(P_1); Serial.print(","); Serial.println(P_2);
-  Serial.print(P_1); Serial.print(","); Serial.print(P_2); Serial.print(","); // Print Pressure
-  // Serial.print("T  "); Serial.print(T_1); Serial.print(","); Serial.println(T_2);
-  Serial.print(T_1); Serial.print(","); Serial.print(T_2); Serial.print(","); // Print Temp
-  Serial.println(marker); // Print Marker with line terminator
+  // Serial.print("D "); // Print Data case value
+  // Serial.print(millis()/1000.00); Serial.print(","); // Print Time
+  // // Serial.print("F  "); Serial.println(Flow);
+  // Serial.print(Flow); Serial.print(","); // Print Flow
+  // // Serial.print("P  "); Serial.print(P_1); Serial.print(","); Serial.println(P_2);
+  // Serial.print(P_1); Serial.print(","); Serial.print(P_2); Serial.print(","); // Print Pressure
+  // // Serial.print("T  "); Serial.print(T_1); Serial.print(","); Serial.println(T_2);
+  // Serial.print(T_1); Serial.print(","); Serial.print(T_2); Serial.print(","); // Print Temp
+  // Serial.println(marker); // Print Marker with line terminator
   // Serial.println("  ");
+
+  // PRESSURE TESTING OUTPUT
+  Serial.println(P_1);
 
   // SCREEN OUTPUT
   // Time display
