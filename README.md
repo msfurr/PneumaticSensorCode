@@ -2,7 +2,14 @@
 
 C++ code controlling temperature, pressure, and flow sensors within Pneumatic Testing Station
 
-## Getting Started: Overview
+## Table of contents
+* [Overview](#overview)
+* [Libraries and Variables](#libraries-and-variables)
+* [Setup](#setup)
+* [Sensor Reading Loop](#sensor-reading-loop)
+* [Reference Files](#reference-files)
+
+## Overview
 
 The provided code includes necessary libraries and source code to produce serial data strings listing 1 flow sensor (SFM3000), 2 temperature sensors (NTC 3950), and 2 pressure sensors (MPXV7025G). The data is printed to the serial monitor and can then be read into LabVIEW through VISA Read functions (LabVIEW VIs found in separate repository). There is also commands to write to an external TFT LCD display (ST7789) controlled through SPI methods.
 
@@ -113,7 +120,7 @@ String T1_Disp;
 String T2_Disp;
 ```
 
-## Setup / Initialization Code
+## Setup
 
 The following pieces are initialized within the setup section
 
@@ -144,7 +151,7 @@ Temperature values are found by translating the voltage readings of the NTC sens
 
 All of these sensor values are then both printed to the serial monitor for data gathering and the TFT display for the user.
 
-## Reference Files (Data Sheets)
+## Reference Files
 
 * [NTC Thermistors](https://drive.google.com/file/d/1_lHE7f3WpF-EfXMwU8j3nHWwyJp8GtlP/view?usp=sharing)
 * [ESP32](https://drive.google.com/file/d/1CIoa6Am3PvPp-QFPdmDZbroRR86utgej/view?usp=sharing)
