@@ -146,6 +146,7 @@ All of these sensor values are then both printed to the serial monitor for data 
 
 ## Reference Files (Data Sheets)
 
-
-
-
+* [NTC Thermistors](https://drive.google.com/file/d/1_lHE7f3WpF-EfXMwU8j3nHWwyJp8GtlP/view?usp=sharing)
+* [ESP32](https://drive.google.com/file/d/1CIoa6Am3PvPp-QFPdmDZbroRR86utgej/view?usp=sharing)
+* [Pressure Sensors](https://drive.google.com/file/d/1t7lr9Ug06I8soxHhNLLeWb63RK0vVjjf/view?usp=sharing)
+* [Flow Sensor](https://drive.google.com/file/d/1RW7EKiJrZ52DmqxEUcTtVEUl_KeTw4Xp/view?usp=sharing)
