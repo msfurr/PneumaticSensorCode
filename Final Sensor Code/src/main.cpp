@@ -24,7 +24,7 @@ int offset = 32000; // Offset for the sensor
 float scale = 140.0; // Scale factor for Air and N2 is 140.0, O2 is 142.8
 
 // Constants for Pressure Sensors
-int Vs = 3; // Supply voltage
+int Vs = 5; // Supply voltage
 char bufferSerial[200];
 int marker = 0;
 float P_1; // Pressure 1 Reading
