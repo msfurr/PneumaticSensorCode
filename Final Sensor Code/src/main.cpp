@@ -12,8 +12,8 @@ Adafruit_ADS1015 ads1015;
 // Set pin values
 int Therm1 = A9; // Set Thermistor Pin 1
 int Therm2 = A10; // Set Thermistor Pin 2
-int Pressure1 = 0; // Set Pressure Pin 1
-int Pressure2 = 1; // Set Pressure Pin 2
+int Pressure1 = 1; // Set Pressure Pin 1
+int Pressure2 = 0; // Set Pressure Pin 2
 
 // Constants for SFM3000 Flow Sensor
 SFM3000wedo measflow(64);
@@ -98,10 +98,12 @@ void loop() {
   P_1 = ads1015.readADC_SingleEnded(Pressure1); // Read Pressure Sensor value
   Vout_1 = (P_1 / 1728) * Vs; // Convert to voltage out
   P_1 = (1 / 0.018) * ((Vout_1 / Vs) - 0.5); // Convert to Pressure (kPA)
+  P_1 = P_1 - 0.57; // Adjust for offset
 
   P_2 = ads1015.readADC_SingleEnded(Pressure2);
   Vout_2 = (P_2 / 1728) * Vs;
   P_2 = (1 / 0.018) * ((Vout_2 / Vs) - 0.5);
+  P_2 = P_2 - 0.66;
 
   // TEMP SENSORS
   // Read Voltage out for both thermistors
@@ -119,6 +121,9 @@ void loop() {
   T_2 = (1/To) + (1/B) * log(R1_2 / Ro);
   T_2 = 1/T_2;
   T_2 = (1.8 * (T_2 - 273)) + 32; // Convert from Kelvin to F
+
+  // PRESSURE SENSOR TESTING
+  // Serial.print(P_1) ; Serial.print("   ") ; Serial.print(P_2);
 
   // DATA OUTPUT
   // sprintf(bufferSerial, "D %f,%f,%f,%f,%f,%f,%i",millis()/1000.00,Flow,P1,P2,Temp1,Temp2,marker);
