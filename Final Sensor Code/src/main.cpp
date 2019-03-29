@@ -57,6 +57,16 @@ String P1_Disp;
 String P2_Disp;
 String T1_Disp;
 String T2_Disp;
+String Flow_Title;
+String T_Title;
+String P1_Title;
+String P2_Title;
+String T1_Title;
+String T2_Title;
+
+unsigned long t;
+unsigned long sampleTimer = 0;
+unsigned long sampleInterval = 500; // 4 Hz sampling rate
 
 void setup() {
 
@@ -83,9 +93,38 @@ void setup() {
   // tft.setFreeFont(FF6);                 // Select the font
   // tft.drawString("TEST TEST TEST", 120, 120, GFXFF);
 
+  // Time display Setup
+  T_Title = "Time(s):";
+  tft.fillScreen(TFT_WHITE); // Clear screen
+  tft.setFreeFont(FF6); // Select the font
+  tft.drawString(T_Title, 120, 60, GFXFF);
+
+  // Flow display Setup
+  Flow_Title = "Flow:";
+  tft.setFreeFont(FF6);
+  tft.drawString(Flow_Title, 80, 120, GFXFF);
+
+  // Pressure display Setup
+  P1_Title = "P1:";
+  tft.setFreeFont(FF6);
+  tft.drawString(P1_Title, 80, 140, GFXFF);
+  P2_Title = "P2:";
+  tft.setFreeFont(FF6);
+  tft.drawString(P2_Title, 80, 160, GFXFF);
+
+  // Temp display Setup
+  T1_Title = "T1:";
+  tft.setFreeFont(FF6);
+  tft.drawString(T1_Title, 80, 180, GFXFF);
+  T2_Title = "T2:";
+  tft.setFreeFont(FF6);
+  tft.drawString(T2_Title, 80, 200, GFXFF);
+
 }
 
 void loop() {
+
+  t = millis();
 
   // FLOW SENSOR
   // Gather results from Flow Sensor
@@ -98,12 +137,12 @@ void loop() {
   P_1 = ads1015.readADC_SingleEnded(Pressure1); // Read Pressure Sensor value
   Vout_1 = (P_1 / 1728) * Vs; // Convert to voltage out
   P_1 = (1 / 0.018) * ((Vout_1 / Vs) - 0.5); // Convert to Pressure (kPA)
-  P_1 = P_1 - 0.57; // Adjust for offset
+  P_1 = P_1 - 0.32; // Adjust for offset
 
   P_2 = ads1015.readADC_SingleEnded(Pressure2);
   Vout_2 = (P_2 / 1728) * Vs;
   P_2 = (1 / 0.018) * ((Vout_2 / Vs) - 0.5);
-  P_2 = P_2 - 0.66;
+  P_2 = P_2 - 0.63;
 
   // TEMP SENSORS
   // Read Voltage out for both thermistors
@@ -138,39 +177,41 @@ void loop() {
   Serial.println(marker); // Print Marker with line terminator
   // Serial.println("  ");
 
+  t = millis();
+
+  if(t - sampleTimer >= sampleInterval)  // is it time for a sample?
+  {
+
+  sampleTimer = t;
+
   // SCREEN OUTPUT
   // Time display
   T_Disp = String(millis()/1000.00);
-  T_Disp = "Time(sec): " + T_Disp;
-  tft.fillScreen(TFT_WHITE); // Clear screen
   tft.setFreeFont(FF6); // Select the font
-  tft.drawString(T_Disp, 120, 60, GFXFF);
+  tft.drawString(T_Disp, 210, 60, GFXFF);
 
   // Flow display
   Flow_Disp = String(Flow);
-  Flow_Disp = "Flow: " + Flow_Disp;
   tft.setFreeFont(FF6);
-  tft.drawString(Flow_Disp, 100, 120, GFXFF);
+  tft.drawString(Flow_Disp, 210, 120, GFXFF);
 
   // Pressure display
   P1_Disp = String(P_1);
-  P1_Disp = "P1:   " + P1_Disp;
   tft.setFreeFont(FF6);
-  tft.drawString(P1_Disp, 120, 140, GFXFF);
+  tft.drawString(P1_Disp, 210, 140, GFXFF);
   P2_Disp = String(P_2);
-  P2_Disp = "P2:   " + P2_Disp;
   tft.setFreeFont(FF6);
-  tft.drawString(P2_Disp, 120, 160, GFXFF);
+  tft.drawString(P2_Disp, 210, 160, GFXFF);
 
-  // Time display
+  // Temp display
   T1_Disp = String(T_1);
-  T1_Disp = "T1:   " + T1_Disp;
   tft.setFreeFont(FF6);
-  tft.drawString(T1_Disp, 120, 180, GFXFF);
+  tft.drawString(T1_Disp, 210, 180, GFXFF);
   T2_Disp = String(T_2);
-  T2_Disp = "T2:   " + T2_Disp;
   tft.setFreeFont(FF6);
-  tft.drawString(T2_Disp, 120, 200, GFXFF);
+  tft.drawString(T2_Disp, 210, 200, GFXFF);
+
+}
 
   delay(10); // Slight delay for Serial Monitor Reading
 
