@@ -63,6 +63,7 @@ String P1_Title;
 String P2_Title;
 String T1_Title;
 String T2_Title;
+String Clear;
 
 unsigned long t;
 unsigned long sampleTimer = 0;
@@ -137,11 +138,13 @@ void loop() {
   P_1 = ads1015.readADC_SingleEnded(Pressure1); // Read Pressure Sensor value
   Vout_1 = (P_1 / 1728) * Vs; // Convert to voltage out
   P_1 = (1 / 0.018) * ((Vout_1 / Vs) - 0.5); // Convert to Pressure (kPA)
+  P_1 = P_1 * 10.19; // Convert kPa to cm of water
   P_1 = P_1 - 0.32; // Adjust for offset
 
   P_2 = ads1015.readADC_SingleEnded(Pressure2);
   Vout_2 = (P_2 / 1728) * Vs;
   P_2 = (1 / 0.018) * ((Vout_2 / Vs) - 0.5);
+  P_2 = P_2 * 10.19;
   P_2 = P_2 - 0.63;
 
   // TEMP SENSORS
@@ -191,9 +194,11 @@ void loop() {
   tft.drawString(T_Disp, 210, 60, GFXFF);
 
   // Flow display
-  Flow_Disp = String(Flow);
+  tft.setTextColor(TFT_WHITE, TFT_WHITE);
   tft.setFreeFont(FF6);
-  tft.drawString(Flow_Disp, 210, 120, GFXFF);
+  tft.drawString("---------------------------------", 210, 120, GFXFF);
+  tft.setTextColor(TFT_BLACK, TFT_WHITE);
+  tft.drawString(String(Flow), 210, 120, GFXFF);
 
   // Pressure display
   P1_Disp = String(P_1);
